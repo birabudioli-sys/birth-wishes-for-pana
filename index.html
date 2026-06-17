@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HBD My Love</title>
+    <!-- Confetti Script -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #0f0c20;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            color: #fff;
+        }
+        .wrapper { text-align: center; padding: 20px; width: 100%; max-width: 400px; z-index: 10; }
+        .gift-box { font-size: 90px; cursor: pointer; animation: bounce 1.2s infinite alternate; }
+        @keyframes bounce { 0% { transform: translateY(0); } 100% { transform: translateY(-15px); } }
+        
+        .box-card {
+            display: none;
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(15px);
+            padding: 30px;
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.8s ease-in-out;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        
+        h2 { font-size: 1.5rem; margin-bottom: 20px; color: #ff4b5c; }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            color: #fff;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn:active { transform: scale(0.95); }
+        
+        .gf-img {
+            width: 100%;
+            max-height: 250px;
+            border-radius: 12px;
+            object-fit: cover;
+            border: 3px solid #ff4b5c;
+            margin-bottom: 20px;
+            box-shadow: 0 0 20px rgba(255, 75, 92, 0.4);
+        }
+        h1 { font-size: 2.2rem; color: #ff4b5c; margin-bottom: 15px; text-shadow: 0 0 10px rgba(255,75,92,0.5); }
+        p { font-size: 1rem; line-height: 1.6; color: #e0e0e0; }
+        .sub-text { font-size: 14px; color: #888; margin-top: 15px; }
+    </style>
+</head>
+<body>
+
+    <!-- FINAL ENCODED AUDIO LINKS -->
+    <audio id="bg-tune" src="https://filebin.net/5x53l5q3trus7ov5/Sunil%20Soren%20-%20TUNE%20of%20script%20_%202026-06-17%2013_05.m4a" crossorigin="anonymous" loop preload="auto"></audio>
+    <audio id="main-song" src="https://filebin.net/5x53l5q3trus7ov5/Sunil%20Soren%20-%20GOROJ%20MONE%20TUNR%20_%202026-06-17%2013_08.m4a" crossorigin="anonymous" loop preload="auto"></audio>
+    <audio id="click-sound" src="https://filebin.net/5x53l5q3trus7ov5/Sunil%20Soren%20-%20CLICK%20SOUND%20_%202026-06-17%2013_10.m4a" crossorigin="anonymous" preload="auto"></audio>
+    <audio id="correct-sound" src="https://filebin.net/5x53l5q3trus7ov5/Sunil%20Soren%20-%20CORRECT%20_%202026-06-17%2013_11.m4a" crossorigin="anonymous" preload="auto"></audio>
+    <audio id="incorrect-sound" src="https://filebin.net/5x53l5q3trus7ov5/Sunil%20Soren%20-%20CORRECT%20_%202026-06-17%2013_12.m4a" crossorigin="anonymous" preload="auto"></audio>
+
+    <div class="wrapper">
+        <div id="gift-screen">
+            <div class="gift-box" onclick="startScript()">🎁</div>
+            <p class="sub-text">Tap the gift to open your surprise...</p>
+        </div>
+
+        <div id="quiz-screen" class="box-card">
+            <h2>Mera ek chota sa sawal... Kya tum duniya ki sabse pyari girlfriend ho? 🫣</h2>
+            <button class="btn" onclick="handleAnswer(true)">Haan, bilkul! ❤️</button>
+            <button class="btn" onclick="handleAnswer(false)">Nahi toh 😜</button>
+        </div>
+
+        <div id="main-screen" class="box-card">
+            <img class="gf-img" src="https://i.ibb.co/mrTjcJ5q/1000027790.jpg" alt="Birthday Girl">
+            <h1>Happy Birthday, My Love! 🎂</h1>
+            <p>"Faasle chahe jitne bhi hon, tum hamesha mere dil ke sabse kareeb rahungi. Yeh din tumhare liye utna hi haseen ho jitni tum ho!"</p>
+        </div>
+    </div>
+
+    <script>
+        const bgTune = document.getElementById('bg-tune');
+        const mainSong = document.getElementById('main-song');
+        const clickSound = document.getElementById('click-sound');
+        const correctSound = document.getElementById('correct-sound');
+        const incorrectSound = document.getElementById('incorrect-sound');
+
+        // Force reload audio setup for cross-origin fixes
+        function loadAudios() {
+            bgTune.load(); mainSong.load(); clickSound.load(); correctSound.load(); incorrectSound.load();
+        }
+        window.addEventListener('DOMContentLoaded', loadAudios);
+
+        function startScript() {
+            clickSound.play().catch(e => console.log("Click sound blocked"));
+            bgTune.play().catch(e => console.log("Audio play blocked"));
+            
+            document.getElementById('gift-screen').style.display = 'none';
+            document.getElementById('quiz-screen').style.display = 'block';
+        }
+
+        function handleAnswer(isCorrect) {
+            if (isCorrect) {
+                bgTune.pause();
+                bgTune.currentTime = 0;
+                
+                correctSound.play().catch(e => console.log("Sound blocked"));
+                mainSong.play().catch(e => console.log("Main music blocked"));
+
+                var duration = 4 * 1000;
+                var end = Date.now() + duration;
+                (function frame() {
+                    confetti({ particleCount: 4, angle: 60, spread: 55, origin: { x: 0 } });
+                    confetti({ particleCount: 4, angle: 120, spread: 55, origin: { x: 1 } });
+                    if (Date.now() < end) { requestAnimationFrame(frame); }
+                }());
+
+                document.getElementById('quiz-screen').style.display = 'none';
+                document.getElementById('main-screen').style.display = 'block';
+            } else {
+                incorrectSound.play().catch(e => console.log("Sound blocked"));
+                alert("Galat jawab! Phir se try karo 😜");
+            }
+        }
+    </script>
+</body>
+</html>
